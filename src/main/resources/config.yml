@@ -1,0 +1,26 @@
+#语言文件
+Lang: "zh_CN"
+#存储方式(YAML/MySQL)
+dataMode: "YAML"
+YamlDataPath: "%dataFolder%/data"
+#多少秒进行一次数据保存
+#(插件在卸载的时候会进行数据保存，但某些情况下服务端直接退出会跳过插件卸载的步骤，所以有该项配置)
+dataSaveTimer: 600
+World:
+  #世界名
+  test:
+    #默认时间
+    time: 300
+    #倒计时还剩指定时间时执行的kether
+    inTime:
+      10:
+        - tell "§7[§c§l!§7] §e您在该世界的倒计时就剩10秒了哦!"
+      5:
+        - tell "§7[§c§l!§7] §e您在该世界的倒计时就剩5秒了哦!"
+    #加入时执行的Kether
+    joinScript:
+      - tell "§7[§b§l!§7] §a您进入了限时世界!"
+    #倒计时结束时执行的kether语句
+    endScript:
+      - command inline "mv tp {{ sender }} world" as console
+      - tell "§7[§a§l!§7] §a您在该世界的倒计时结束了哦!"
