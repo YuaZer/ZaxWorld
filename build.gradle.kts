@@ -12,9 +12,6 @@ taboolib {
             name("Z菌")
             // ...
         }
-        dependencies {
-            name("ZaxWorld")
-        }
     }
     env {
         install(Basic)
