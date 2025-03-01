@@ -5,17 +5,15 @@ import io.github.yuazer.zaxworld.api.ZaxWorldAPI
 import org.bukkit.entity.Player
 import taboolib.platform.compat.PlaceholderExpansion
 
-object TimeHook:PlaceholderExpansion {
+object TimeHook : PlaceholderExpansion {
     override val identifier: String = "zaxworld"
     override fun onPlaceholderRequest(player: Player?, args: String): String {
-        if (args.equals("time",true)){
-            val time = if (player==null) 0 else ZaxWorld.getPlayerCacheMap().getPlayerWorldTime(player.name,args)
-            return "$time"
-        }else if (args.equals("isFree",true)){
-            val isFree = if (player==null) false else ZaxWorldAPI.isFree(player)
+        if (args.equals("isFree", true)) {
+            val isFree = if (player == null) false else ZaxWorldAPI.isFree(player)
             return isFree.toString()
-        }else{
-            return "ZaxWorld:Args error"
+        } else {
+            val time = if (player == null) 0 else ZaxWorld.getPlayerCacheMap().getPlayerWorldTime(player.name, args)
+            return "$time"
         }
     }
 }
