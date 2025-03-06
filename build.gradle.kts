@@ -21,6 +21,7 @@ taboolib {
         install(BukkitHook)
         install(Kether)
         install(Database)
+        install(Metrics)
     }
     version { taboolib = "6.2.1-f095116" }
 }

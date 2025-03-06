@@ -1,11 +1,11 @@
 package io.github.yuazer.zaxworld
 
-import io.github.yuazer.zaxworld.Metrics.SimplePie
 import io.github.yuazer.zaxworld.database.DataLoader
 import io.github.yuazer.zaxworld.database.YamlData
 import io.github.yuazer.zaxworld.manager.BukkitRunnableManager
 import io.github.yuazer.zaxworld.mymap.PlayerWorldMap
 import taboolib.common.io.newFile
+import taboolib.common.platform.Platform
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.info
@@ -62,9 +62,11 @@ object ZaxWorld : Plugin() {
         }
         info("auto save loaded, timer: $timer seconds")
         val pluginId = 24716
-        val metrics = Metrics(BukkitPlugin.getInstance(), pluginId)
+//        val metrics = Metrics(BukkitPlugin.getInstance(), pluginId)
         // Optional: Add custom charts
-        metrics.addCustomChart(SimplePie("ZaxPlugins") { "Powered by YuaZer" })
+//        metrics.addCustomChart(SimplePie("ZaxPlugins") { "Powered by YuaZer" })
+        val metrics =
+            taboolib.module.metrics.Metrics(pluginId, BukkitPlugin.getInstance().description.version, Platform.BUKKIT)
     }
 
     override fun onDisable() {
