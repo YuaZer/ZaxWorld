@@ -21,6 +21,9 @@ object ZaxWorldAPI {
             }
             return
         }else{
+            ZaxWorld.getPlayerCacheMap().getPlayerAllWorld(playerName).forEach {
+                ZaxWorld.runnableManager.stop(playerName, it)
+            }
             val worldRunnable = WorldRunnable(playerName,worldName)
             ZaxWorld.runnableManager.add(playerName , worldName,worldRunnable)
             val ketherList = PlayerUtils.replaceInList(ZaxWorld.config.getStringList("World.${worldName}.joinScript"),"%player_name%",playerName)
@@ -37,6 +40,9 @@ object ZaxWorldAPI {
             }
             return
         }else{
+            ZaxWorld.getPlayerCacheMap().getPlayerAllWorld(playerName).forEach {
+                ZaxWorld.runnableManager.stop(playerName, it)
+            }
             val worldRunnable = WorldRunnable(playerName,worldName)
             ZaxWorld.runnableManager.add(playerName , worldName,worldRunnable)
             val ketherList = PlayerUtils.replaceInList(ZaxWorld.config.getStringList("World.${worldName}.joinScript"),"%player_name%",playerName)
