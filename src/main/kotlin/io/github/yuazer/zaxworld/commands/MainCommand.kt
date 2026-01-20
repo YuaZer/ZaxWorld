@@ -6,16 +6,11 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.*
 import taboolib.expansion.createHelper
-import taboolib.platform.util.asLangText
 import taboolib.platform.util.sendLang
 
 @CommandHeader("zaxworld", ["zw"], permissionDefault = PermissionDefault.TRUE)
 object MainCommand {
     // 创建扩展函数简化消息替换
-    fun CommandSender.sendLangWithReplace(key: String, vararg pairs: Pair<String, Any>) {
-        val message = asLangText(key)
-        sendMessage(pairs.fold(message) { acc, (k, v) -> acc.replace("{$k}", v.toString()) })
-    }
 
     @CommandBody(permission = "zaxworld.reload")
     val reload = subCommand {
@@ -39,18 +34,18 @@ object MainCommand {
                     val user = context["user"]
                     if (operate.equals("add", true)) {
                         if (ZaxWorldAPI.isFree(user)) {
-                            sender.sendLangWithReplace(sender.asLangText("already-free-player"))
+                            sender.sendLang("already-free-player")
                         } else {
                             ZaxWorld.getPlayerFreeSet().add(user)
                         }
                     } else if (operate.equals("del", true)) {
                         if (!ZaxWorldAPI.isFree(user)) {
-                            sender.sendLangWithReplace(sender.asLangText("already-not-free-player"))
+                            sender.sendLang("already-not-free-player")
                         } else {
                             ZaxWorld.getPlayerFreeSet().remove(user)
                         }
                     } else {
-                        sender.sendLangWithReplace(sender.asLangText("error-command-format"))
+                        sender.sendLang("error-command-format")
                     }
                 }
             }
@@ -60,21 +55,21 @@ object MainCommand {
                     val user: String = sender.name
                     if (operate.equals("add", true)) {
                         if (ZaxWorldAPI.isFree(user)) {
-                            sender.sendLangWithReplace(sender.asLangText("already-free-player"))
+                            sender.sendLang("already-free-player")
                         } else {
                             ZaxWorld.getPlayerFreeSet().add(user)
                         }
                     } else if (operate.equals("del", true)) {
                         if (!ZaxWorldAPI.isFree(user)) {
-                            sender.sendLangWithReplace(sender.asLangText("already-not-free-player"))
+                            sender.sendLang("already-not-free-player")
                         } else {
                             ZaxWorld.getPlayerFreeSet().remove(user)
                         }
                     } else {
-                        sender.sendLangWithReplace(sender.asLangText("error-command-format"))
+                        sender.sendLang("error-command-format")
                     }
                 } else {
-                    sender.sendLangWithReplace(sender.asLangText("only-player-command"))
+                    sender.sendLang("only-player-command")
                 }
             }
         }
@@ -90,12 +85,7 @@ object MainCommand {
                     val worldName: String = user.world.name
                     val time: Int = context.int("user")
                     ZaxWorld.getPlayerCacheMap().add(sender.name, worldName, time)
-                    sender.sendLangWithReplace(
-                        "manage-command-message-add",
-                        "{user}" to user.name,
-                        "{world}" to worldName,
-                        "{time}" to time.toString()
-                    )
+                    sender.sendLang("manage-command-message-add", time, user.name, worldName)
                 }
             }
             dynamic("world") {
@@ -106,12 +96,7 @@ object MainCommand {
                         val worldName: String = context["world"]
                         val time: Int = context.int("time")
                         ZaxWorld.getPlayerCacheMap().add(user, worldName, time)
-                        sender.sendLangWithReplace(
-                            "manage-command-message-add",
-                            "{user}" to user,
-                            "{world}" to worldName,
-                            "{time}" to time.toString()
-                        )
+                        sender.sendLang("manage-command-message-add", time, user, worldName)
                     }
                 }
             }
@@ -128,12 +113,7 @@ object MainCommand {
                     val worldName: String = user.world.name
                     val time: Int = context.int("user")
                     ZaxWorld.getPlayerCacheMap().reduce(sender.name, worldName, time)
-                    sender.sendLangWithReplace(
-                        "manage-command-message-reduce",
-                        "{user}" to user.name,
-                        "{world}" to worldName,
-                        "{time}" to time.toString()
-                    )
+                    sender.sendLang("manage-command-message-reduce", time, user.name, worldName)
                 }
             }
             dynamic("world") {
@@ -143,12 +123,7 @@ object MainCommand {
                         val worldName: String = context["world"]
                         val time: Int = context.int("time")
                         ZaxWorld.getPlayerCacheMap().reduce(user, worldName, time)
-                        sender.sendLangWithReplace(
-                            "manage-command-message-reduce",
-                            "{user}" to user,
-                            "{world}" to worldName,
-                            "{time}" to time.toString()
-                        )
+                        sender.sendLang("manage-command-message-reduce", time, user, worldName)
                     }
                 }
             }
@@ -164,12 +139,7 @@ object MainCommand {
                     val worldName: String = user.world.name
                     val time: Int = context.int("user")
                     ZaxWorld.getPlayerCacheMap().set(sender.name, worldName, time)
-                    sender.sendLangWithReplace(
-                        "manage-command-message-set",
-                        "{user}" to user.name,
-                        "{world}" to worldName,
-                        "{time}" to time.toString()
-                    )
+                    sender.sendLang("manage-command-message-set", time, user.name, worldName)
                 }
             }
             dynamic("world") {
@@ -180,12 +150,7 @@ object MainCommand {
                         val worldName: String = context["world"]
                         val time: Int = context.int("time")
                         ZaxWorld.getPlayerCacheMap().set(user, worldName, time)
-                        sender.sendLangWithReplace(
-                            "manage-command-message-set",
-                            "{user}" to user,
-                            "{world}" to worldName,
-                            "{time}" to time.toString()
-                        )
+                        sender.sendLang("manage-command-message-set", time, user, worldName)
                     }
                 }
             }
@@ -215,12 +180,7 @@ object MainCommand {
                     val user = context["user"]
                     val worldName: String = context["world"]
                     val time = ZaxWorld.getPlayerCacheMap().getPlayerWorldTime(user, worldName)
-                    sender.sendMessage(
-                        sender.asLangText("manage-command-message-check")
-                            .replace("{user}", user)
-                            .replace("{world}", worldName)
-                            .replace("{time}", time.toString())
-                    )
+                    sender.sendLang("manage-command-message-check", user, worldName, time)
                 }
             }
         }
@@ -229,12 +189,7 @@ object MainCommand {
                 val user: Player = sender
                 val worldName: String = user.world.name
                 val time = ZaxWorld.getPlayerCacheMap().getPlayerWorldTime(user.name, worldName)
-                sender.sendMessage(
-                    sender.asLangText("manage-command-message-check")
-                        .replace("{user}", user.name)
-                        .replace("{world}", worldName)
-                        .replace("{time}", time.toString())
-                )
+                sender.sendLang("manage-command-message-check", user.name, worldName, time)
             }
         }
     }
