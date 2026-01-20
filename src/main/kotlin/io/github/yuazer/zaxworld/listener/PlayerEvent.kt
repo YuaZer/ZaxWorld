@@ -16,8 +16,9 @@ object PlayerEvent {
     @SubscribeEvent
     fun onQuit(e:PlayerQuitEvent){
         val player=e.player
-        val worldName = player.world.name
-        ZaxWorld.runnableManager.stop(player.name, worldName)
+        ZaxWorld.getPlayerCacheMap().getPlayerAllWorld(player.name).forEach {
+            ZaxWorld.runnableManager.stop(player.name, it)
+        }
     }
     @SubscribeEvent
     fun onRespawn(e:PlayerRespawnEvent){

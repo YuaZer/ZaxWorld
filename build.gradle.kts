@@ -3,11 +3,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    id("io.izzel.taboolib") version "2.0.22"
-    id("org.jetbrains.kotlin.jvm") version "1.9.22"
+    kotlin("jvm") version "2.1.20"
+    id("io.izzel.taboolib") version "2.0.28"
+//    id("org.jetbrains.kotlin.jvm") version "1.9.22"
 }
 taboolib {
     description {
+        name = "ZaxWorld"
         contributors {
             name("Z菌")
             // ...
@@ -23,7 +25,7 @@ taboolib {
         install(Database)
         install(Metrics)
     }
-    version { taboolib = "6.2.1-f095116" }
+    version { taboolib = "6.2.4-65252583" }
 }
 
 repositories {

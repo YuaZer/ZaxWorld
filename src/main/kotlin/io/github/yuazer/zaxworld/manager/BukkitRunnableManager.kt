@@ -31,14 +31,26 @@ class BukkitRunnableManager(private val plugin: JavaPlugin) {
     }
 
     fun stop(key: String) {
+        if (tasks[key]?.isCancelled == true){
+            tasks.remove(key)
+            return
+        }
         tasks[key]?.cancel()
         tasks.remove(key)
     }
     fun stop(playerName: String, worldName: String) {
         val key = ZaxWorld.getPlayerCacheMap().getPWKey(playerName, worldName)
-        tasks[key]?.cancel()
+        val task = tasks[key]
+        try {
+            task?.cancel()
+        } catch (e: IllegalStateException) {
+            if (!e.message.orEmpty().contains("Not scheduled yet")) {
+                e.printStackTrace()
+            }
+        }
         tasks.remove(key)
     }
+
 
     fun stopAll() {
         tasks.keys.toList().forEach(this::stop) // 防止ConcurrentModificationException

@@ -9,7 +9,7 @@ import taboolib.expansion.createHelper
 import taboolib.platform.util.asLangText
 import taboolib.platform.util.sendLang
 
-@CommandHeader("zaxworld", ["zw"])
+@CommandHeader("zaxworld", ["zw"], permissionDefault = PermissionDefault.TRUE)
 object MainCommand {
     // 创建扩展函数简化消息替换
     fun CommandSender.sendLangWithReplace(key: String, vararg pairs: Pair<String, Any>) {
